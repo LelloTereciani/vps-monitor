@@ -42,7 +42,7 @@
 <header>
   <div class="logo">
     <div class="logo-icon">📶</div>
-    <div class="logo-text"><h1>VPS Monitor Premium</h1><span>portifolio.cloud — Ubuntu 25.10 · KVM 1</span></div>
+    <div class="logo-text"><h1>VPS Monitor Premium</h1><span id="os-name">portifolio.cloud — Carregando...</span></div>
   </div>
   <div class="status-pill"><div class="pulse"></div> Em atividade</div>
 </header>
@@ -116,6 +116,7 @@
       document.getElementById('net-tx').innerText = txFmt;
       document.getElementById('tot-rx').innerText = d.net_rx_total_gb + ' GB';
       document.getElementById('tot-tx').innerText = d.net_tx_total_gb + ' GB';
+      document.getElementById('os-name').innerText = 'portifolio.cloud — ' + d.os_name;
       
       document.getElementById('last-update').innerText = "Atualizado em " + new Date().toLocaleTimeString();
     } catch(e) { document.getElementById('last-update').innerText = "Erro ao carregar dados"; }

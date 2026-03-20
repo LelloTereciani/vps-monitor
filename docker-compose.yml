@@ -6,6 +6,7 @@ services:
     network_mode: host
     volumes:
       - /proc:/proc:ro
+      - /etc/os-release:/etc/host-os-release:ro
     environment:
       PORT: 9090
     logging:

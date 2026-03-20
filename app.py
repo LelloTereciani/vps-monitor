@@ -3,7 +3,7 @@
 VPS Monitor API v1.5 — Correções Críticas de Dados (Disco e Rede)
 """
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import json, subprocess, re, os, time
+import json, subprocess, re, os, time, platform
 
 # Globais persistentes de estado
 cpu_last = {"total": 0, "idle": 0, "iowait": 0}
@@ -42,6 +42,18 @@ def get_net_delta():
         net_last = {"rx": rx, "tx": tx, "time": now}
         return round(dr, 1), round(dt, 1), rx, tx
     except: return 0.0, 0.0, 0, 0
+
+def get_os_info():
+    try:
+        # Tenta ler do mount do host primeiro
+        path = "/etc/host-os-release" if os.path.exists("/etc/host-os-release") else "/etc/os-release"
+        with open(path) as f:
+            for line in f:
+                if line.startswith("PRETTY_NAME="):
+                    name = line.split("=")[1].strip().strip('"')
+                    return name
+    except: pass
+    return platform.system() + " " + platform.release()
 
 def get_metrics():
     m = {}
@@ -91,7 +103,7 @@ def get_metrics():
         m["load_1"], m["load_5"], m["load_15"] = float(p[0]), float(p[1]), float(p[2])
     except: m["uptime"] = "N/A"
     
-    m["timestamp"] = int(time.time())
+    m["timestamp"] = int(time.time()); m["os_name"] = get_os_info()
     return m
 
 class Handler(BaseHTTPRequestHandler):

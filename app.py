@@ -32,16 +32,32 @@ def get_net_delta():
         rx, tx = 0, 0
         with open("/proc/net/dev") as f:
             for l in f:
-                if "eth0" in l:
-                    p = l.split(); rx, tx = int(p[1]), int(p[9]); break
+                if ":" not in l: continue
+                parts = l.split(":", 1)
+                name = parts[0].strip()
+                if name in ("lo", "docker0") or name.startswith(("veth", "br-", "docker")):
+                    continue
+                
+                # Captura a primeira interface de rede real (eth0, ens3, venet0, etc)
+                p = parts[1].split()
+                rx, tx = int(p[0]), int(p[8])
+                if rx > 0: break # Se achamos uma com tráfego, paramos
+                
         now = time.time()
         if net_last["rx"] == 0:
             net_last = {"rx": rx, "tx": tx, "time": now}
             return 0.0, 0.0, rx, tx
-        dr, dt = (rx - net_last["rx"]) / 1024**2, (tx - net_last["tx"]) / 1024**2
+        
+        # Diferencial em MB
+        dr = (rx - net_last["rx"]) / 1024**2
+        dt = (tx - net_last["tx"]) / 1024**2
+        
         net_last = {"rx": rx, "tx": tx, "time": now}
-        return round(dr, 1), round(dt, 1), rx, tx
-    except: return 0.0, 0.0, 0, 0
+        # Retornamos com mais precisão para evitar que tráfego baixo apareça como 0.0
+        return round(dr, 2), round(dt, 2), rx, tx
+    except Exception as e:
+        print(f"Erro rede: {e}")
+        return 0.0, 0.0, 0, 0
 
 def get_os_info():
     try:

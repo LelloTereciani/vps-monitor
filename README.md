@@ -1,47 +1,39 @@
-# 📶 VPS Monitor Premium
+# VPS Monitor
 
-Um monitor de sistema leve, moderno e elegante para servidores Linux (VPS), desenvolvido para oferecer métricas em tempo real com uma interface premium e luxuosa.
+**Classification:** Independent Project · Study Project
 
-## 🚀 Funcionalidades
+A lightweight Linux VPS monitoring dashboard using Python's standard library, HTML, CSS, and vanilla JavaScript. It reads local system metrics such as CPU, memory, disk, network traffic, uptime, load, and operating-system information.
 
--   **⚡ CPU Real:** Monitoramento de uso ativo, total e I/O Wait (Atraso).
--   **🧠 Memória RAM:** Visualização em tempo real do uso, total e disponibilidade.
--   **💾 Disco SSD:** Status de armazenamento consumido e uptime do sistema.
--   **🌐 Tráfego de Rede:** Monitoramento de entrada (⬇️) e saída (⬆️) em tempo real com alta precisão (**0.01 MB**).
--   **📡 Transferência Acumulada:** Contador total de dados transmitidos em GB.
--   **⏲️ Uptime & Load:** Acompanhamento da estabilidade e carga média do servidor.
--   **🖥️ Reconhecimento de S.O:** Detecção automática do sistema operacional do host (ex: Ubuntu 25.10).
+## Scope and limitations
 
-## 🛠️ Tecnologias
+- Designed for local and self-hosted experimentation.
+- The project does not claim a commercial monitoring service, production SLA, or external security audit.
+- Expose the dashboard only behind an appropriate network and authentication boundary.
 
--   **Backend:** Python 3.12 (Baseado em `http.server` para máxima leveza e zero dependências externas).
--   **Frontend:** HTML5, CSS3 (Glassmorphism & Luminous Design), JavaScript Vanilla.
--   **Container:** Docker & Docker Compose para fácil implantação e isolamento.
--   **OS:** Otimizado para ler métricas diretamente do `/proc` e `/etc/os-release` do Linux.
+## Local run
 
-## 📦 Como Instalar
+Requirements: Python 3.12+ or Docker.
 
-### 1. Requisitos
--   Docker e Docker Compose instalados no servidor.
-
-### 2. Clonar o repositório
 ```bash
-git clone https://github.com/LelloTereciani/vps-monitor.git
-cd vps-monitor
+python app.py
 ```
 
-### 3. Iniciar o Monitor
+Or with Docker Compose:
+
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
-O painel estará disponível no navegador através do endereço: `http://ip-do-seu-servidor:9090`
+The dashboard is normally available on port 9090. Review the Compose and Dockerfile settings before exposing it to a network.
 
-## 🎨 Interface
-A interface foi desenhada com foco em **Visual Excellence**, utilizando:
--   **Tipografia:** Inter e JetBrains Mono para uma leitura técnica limpa.
--   **Estética:** Dark Mode profundo com efeitos de transparência (Glassmorphism).
--   **UX:** Micro-animações de pulso na barra de status e transições suaves.
+## Technology
 
----
-🚀 Desenvolvido com foco em performance por [Lello Tereciani](https://github.com/LelloTereciani)
+Python, `http.server`, HTML5, CSS3, vanilla JavaScript, Docker, and Docker Compose.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
+
+## Author
+
+Lello Tereciani
